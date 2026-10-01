@@ -20,36 +20,80 @@ import { prepareClientImage } from "../lib/utils";
 interface UploadImageProps {
 	defaultImages?: Array<string>;
 	onImageLoaded?: (imageUrl: string) => void;
+	onImagesLoaded?: (imageUrls: Array<string>) => void;
 	title?: string;
 	description?: string;
-	error: string | undefined;
+	error?: string;
+	/** Form field name (defaults to "image") */
+	name?: string;
+	/** When true, the form field receives an array of Files instead of a single File */
+	multiple?: boolean;
+	maxImages?: number;
 	setValue: UseFormSetValue<any>;
 	setError: UseFormSetError<any>;
 	register: UseFormRegister<any>;
 }
 export const UploadImage = (props: UploadImageProps) => {
-	const { defaultImages, error, setError, setValue, register, onImageLoaded } =
-		props;
+	const {
+		defaultImages,
+		error,
+		setError,
+		setValue,
+		onImageLoaded,
+		onImagesLoaded,
+		name = "image",
+		multiple = false,
+		maxImages = 4,
+	} = props;
+	const capacity = multiple ? maxImages : 1;
 	const [images, setImages] = useState<Array<string>>(defaultImages ?? []);
+	const [files, setFiles] = useState<Array<File>>([]);
 
-	const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0] as File;
+	const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+		const selected = Array.from(e.target.files ?? []);
+		e.target.value = "";
 
-		prepareClientImage(file)
-			.then((i) => {
-				setImages([...images, i.imageUrl]);
-				// TODO: handle multiple images
-				setValue("image", i.compressedImage);
+		const room = capacity - images.length;
 
-				if (onImageLoaded) {
-					return onImageLoaded(i.imageUrl);
-				}
-			})
-			.catch((error) => setError("image", error));
+		if (selected.length === 0 || room <= 0) {
+			return;
+		}
+
+		try {
+			const batch = selected.slice(0, room);
+			const prepared = await Promise.all(
+				batch.map((file) => prepareClientImage(file)),
+			);
+
+			const nextImages = [...images, ...prepared.map((i) => i.imageUrl)];
+			const nextFiles = [...files, ...prepared.map((i) => i.compressedImage)];
+
+			setImages(nextImages);
+			setFiles(nextFiles);
+			setValue(name, multiple ? nextFiles : nextFiles[0]);
+			onImageLoaded?.(prepared[0].imageUrl);
+			onImagesLoaded?.(nextImages);
+		} catch (error) {
+			setError(name, {
+				message:
+					error instanceof Error ? error.message : "Failed to process image",
+			});
+		}
 	};
 
 	const handleRemoveImage = (index: number) => {
-		setImages(images.filter((_, i) => i !== index));
+		const nextImages = images.filter((_, i) => i !== index);
+		const nextFiles = files.filter((_, i) => i !== index);
+		setImages(nextImages);
+		setFiles(nextFiles);
+
+		if (multiple) {
+			setValue(name, nextFiles);
+		} else {
+			setValue(name, undefined);
+		}
+
+		onImagesLoaded?.(nextImages);
 	};
 
 	return (
@@ -57,39 +101,38 @@ export const UploadImage = (props: UploadImageProps) => {
 			<CardHeader>
 				<CardTitle className="flex items-center gap-2">
 					<Upload className="h-5 w-5" />
-					Photos
+					{props.title ?? "Photos"}
 				</CardTitle>
 				<CardDescription>
-					Add up to 4 photos of your dish (recommended: square format)
+					{props.description ??
+						(multiple
+							? `Add up to ${capacity} photos (recommended: square format)`
+							: "Add a photo (recommended: square format)")}
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<div className="relative grid grid-cols-2 gap-6 sm:grid-cols-4">
-					{images.map((image, index) => {
-						const id = Date.now();
-
-						return (
-							<div
-								key={id}
-								className="group relative aspect-square overflow-hidden rounded-lg border"
+					{images.map((image, index) => (
+						<div
+							key={index}
+							className="group relative aspect-square overflow-hidden rounded-lg border"
+						>
+							<img
+								src={image || "/placeholder.svg"}
+								alt={`Upload asset ${index + 1}`}
+								className="object-cover w-full h-full"
+							/>
+							<Button
+								onClick={() => handleRemoveImage(index)}
+								variant="ghost"
+								className="absolute right-2 top-2 rounded-full bg-background/80 p-1.5 opacity-50 transition-opacity group-hover:opacity-100 z-50"
 							>
-								<img
-									src={image || "/placeholder.svg"}
-									alt={`Upload asset ${index + 1}`}
-									className="object-cover w-full h-full"
-								/>
-								<Button
-									onClick={() => handleRemoveImage(index)}
-									variant="ghost"
-									className="absolute right-2 top-2 rounded-full bg-background/80 p-1.5 opacity-50 transition-opacity group-hover:opacity-100 z-50"
-								>
-									<X className="h-4 w-4" />
-								</Button>
-							</div>
-						);
-					})}
+								<X className="h-4 w-4" />
+							</Button>
+						</div>
+					))}
 
-					{images.length < 4 && (
+					{images.length < capacity && (
 						<Button
 							variant="ghost"
 							className="flex aspect-square flex-col h-auto w-auto items-center justify-center gap-2 rounded-lg border-2 border-dashed border-muted-foreground/25 text-muted-foreground transition-colors hover:border-foreground/50 hover:text-foreground"
@@ -99,7 +142,8 @@ export const UploadImage = (props: UploadImageProps) => {
 							<input
 								type="file"
 								accept="image/*"
-								{...register("image")}
+								multiple={multiple}
+								name={name}
 								className="absolute inset-0 opacity-0 cursor-pointer"
 								onChange={handleImageUpload}
 							/>

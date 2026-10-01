@@ -10,9 +10,11 @@ export default defineConfig({
 	exports: true,
 	dts: true,
 	sourcemap: false,
-	noExternal: [/@workspace\/.*/],
 	platform: "browser",
-	external: ["/.css$/", "react", "react/jsx-runtime"],
+	deps: {
+		alwaysBundle: [/@workspace\/.*/],
+		neverBundle: ["/.css$/", "react", "react/jsx-runtime"],
+	},
 	minify: process.env.NODE_ENV === "production",
 	plugins: [tailwindPlugin(), injectCssPlugin()],
 	css: {

@@ -246,18 +246,18 @@ function DropdownMenuShortcut({
 
 export {
 	DropdownMenu,
-	DropdownMenuCheckboxItem,
+	DropdownMenuPortal,
+	DropdownMenuTrigger,
 	DropdownMenuContent,
 	DropdownMenuGroup,
-	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuPortal,
+	DropdownMenuItem,
+	DropdownMenuCheckboxItem,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
 	DropdownMenuShortcut,
 	DropdownMenuSub,
-	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
-	DropdownMenuTrigger,
+	DropdownMenuSubContent,
 };

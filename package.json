@@ -1,55 +1,55 @@
 {
 	"name": "@shakicode/ui",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"build": "tsdown && find dist -name '*.js' -exec sed -i '' '/^\\/\\/# sourceMappingURL=/d' {} +",
+		"build": "tsdown",
 		"format-and-lint": "biome check ./src",
 		"format-and-lint:fix": "biome check ./src --write"
 	},
 	"engines": {
-		"node": "24.18.0"
+		"node": "^24.19.0"
 	},
 	"dependencies": {
-		"@base-ui/react": "^1.1.0",
-		"@hookform/resolvers": "^5.2.2",
+		"@base-ui/react": "^1.7.0",
+		"@hookform/resolvers": "^5.9.1",
+		"@tsdown/css": "^0.23.0",
 		"alert-dialog": "link:@base-ui/react/alert-dialog",
 		"browser-image-compression": "^2.0.2",
 		"class-variance-authority": "^0.7.0",
-		"clsx": "^2.1.1",
+		"cn": "^0.4.0",
 		"cmdk": "^1.1.1",
-		"lucide-react": "0.456.0",
-		"next-themes": "^0.4.3",
+		"lucide-react": "1.33.0",
+		"next-themes": "^0.4.6",
 		"react-big-calendar": "^1.19.3",
-		"react-day-picker": "^9.12.0",
-		"react-hook-form": "^7.65.0",
-		"recharts": "^2.15.1",
-		"sonner": "^1.7.1",
-		"tailwind-merge": "^2.5.4",
+		"react-day-picker": "^10.0.1",
+		"react-hook-form": "^7.89.0",
+		"recharts": "^3.10.1",
+		"sonner": "^2.0.8",
 		"tailwindcss-animate": "^1.0.7",
-		"vaul": "^1.1.2",
-		"zod": "^4.0.0"
+		"vaul-base": "^1.0.0",
+		"zod": "^4.6.5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.3",
+		"@biomejs/biome": "^2.5.15",
 		"@bosh-code/tsdown-plugin-inject-css": "^2.0.0",
 		"@bosh-code/tsdown-plugin-tailwindcss": "^1.0.1",
 		"@tailwindcss/forms": "^0.5.7",
-		"@tailwindcss/postcss": "^4.1.18",
-		"@turbo/gen": "^2.2.3",
-		"@types/node": "^22.9.0",
-		"@types/react": "19.2.9",
+		"@tailwindcss/postcss": "^4.3.3",
+		"@turbo/gen": "^2.10.11",
+		"@types/node": "^26.6.3",
+		"@types/react": "^19.3.0",
 		"@types/react-big-calendar": "^1.16.3",
-		"@types/react-dom": "19.2.3",
-		"postcss": "^8.4.47",
-		"tailwindcss": "^4.3.1",
-		"tsdown": "^0.19.0",
+		"@types/react-dom": "^19.3.0",
+		"postcss": "^8.5.28",
+		"tailwindcss": "^4.3.3",
+		"tsdown": "^0.23.0",
 		"tw-animate-css": "^1.4.0",
-		"typescript": "^6.0.3"
+		"typescript": "^7.0.2"
 	},
 	"peerDependencies": {
-		"react": "^19.2.3",
-		"react-dom": "^19.2.3"
+		"react": "^19.3.0",
+		"react-dom": "^19.3.0"
 	},
 	"exports": {
 		"./components/alert": "./dist/components/alert.js",
@@ -94,11 +94,16 @@
 		"./components/upload-image": "./dist/components/upload-image.js",
 		"./hooks/use-mobile": "./dist/hooks/use-mobile.js",
 		"./hooks/use-typed-form": "./dist/hooks/use-typed-form.js",
+		"./icons/facebook": "./dist/icons/facebook.js",
 		"./lib/react-hook-form": "./dist/lib/react-hook-form.js",
 		"./lib/slyderz-theme": "./dist/lib/slyderz-theme.js",
 		"./lib/utils": "./dist/lib/utils.js",
-		"./styles/globals": "./dist/styles/globals.js",
 		"./package.json": "./package.json",
 		"./style.css": "./dist/style.css"
+	},
+	"inlinedDependencies": {
+		"@tailwindcss/forms": "0.5.11",
+		"mini-svg-data-uri": "1.4.4",
+		"tailwindcss": "4.3.3"
 	}
 }

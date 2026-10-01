@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils";
 import type * as React from "react";
-import { Drawer as DrawerPrimitive } from "vaul";
+import { Drawer as DrawerPrimitive } from "vaul-base";
 
 function Drawer({
 	...props
@@ -118,13 +118,13 @@ function DrawerDescription({
 
 export {
 	Drawer,
+	DrawerPortal,
+	DrawerOverlay,
+	DrawerTrigger,
 	DrawerClose,
 	DrawerContent,
-	DrawerDescription,
-	DrawerFooter,
 	DrawerHeader,
-	DrawerOverlay,
-	DrawerPortal,
+	DrawerFooter,
 	DrawerTitle,
-	DrawerTrigger,
+	DrawerDescription,
 };

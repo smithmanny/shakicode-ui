@@ -3,19 +3,21 @@
 import { Button } from "@workspace/ui/components/button";
 import {
 	Drawer,
+	DrawerClose,
 	DrawerContent,
-	DrawerDescription,
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
 } from "@workspace/ui/components/drawer";
+import { Separator } from "@workspace/ui/components/separator";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
-import type { PropsWithChildren } from "react";
+import { X } from "lucide-react";
+import type { PropsWithChildren, ReactNode } from "react";
 
 interface DrawerSheetProps extends PropsWithChildren {
 	title: string;
 	header: string;
-	description?: string;
+	description?: ReactNode;
 }
 
 export const DrawerSheet = (props: DrawerSheetProps) => {
@@ -28,12 +30,31 @@ export const DrawerSheet = (props: DrawerSheetProps) => {
 					{props.header}
 				</Button>
 			</DrawerTrigger>
-			<DrawerContent>
-				<DrawerHeader className="gap-1">
-					<DrawerTitle>{props.title}</DrawerTitle>
-					<DrawerDescription>{props.description}</DrawerDescription>
+			<DrawerContent className="flex flex-col">
+				<DrawerHeader className="shrink-0 gap-1 text-left">
+					<div className="flex items-start justify-between gap-4">
+						<div className="space-y-1">
+							<DrawerTitle>{props.title}</DrawerTitle>
+							{props.description ? (
+								<p className="text-sm text-muted-foreground">
+									{props.description}
+								</p>
+							) : null}
+						</div>
+						<DrawerClose asChild>
+							<Button
+								variant="ghost"
+								size="icon"
+								className="size-8 shrink-0 text-muted-foreground"
+								aria-label="Close"
+							>
+								<X className="size-4" />
+							</Button>
+						</DrawerClose>
+					</div>
 				</DrawerHeader>
-				<div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
+				<Separator className="shrink-0" />
+				<div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-5">
 					{props.children}
 				</div>
 			</DrawerContent>
