@@ -25,10 +25,15 @@ export const DrawerSheet = (props: DrawerSheetProps) => {
 
 	return (
 		<Drawer direction={isMobile ? "bottom" : "right"}>
-			<DrawerTrigger asChild>
-				<Button variant="link" className="text-foreground w-fit px-0 text-left">
-					{props.header}
-				</Button>
+			<DrawerTrigger
+				render={
+					<Button
+						variant="link"
+						className="text-foreground w-fit px-0 text-left"
+					/>
+				}
+			>
+				{props.header}
 			</DrawerTrigger>
 			<DrawerContent className="flex flex-col">
 				<DrawerHeader className="shrink-0 gap-1 text-left">
@@ -41,15 +46,17 @@ export const DrawerSheet = (props: DrawerSheetProps) => {
 								</p>
 							) : null}
 						</div>
-						<DrawerClose asChild>
-							<Button
-								variant="ghost"
-								size="icon"
-								className="size-8 shrink-0 text-muted-foreground"
-								aria-label="Close"
-							>
-								<X className="size-4" />
-							</Button>
+						<DrawerClose
+							render={
+								<Button
+									variant="ghost"
+									size="icon"
+									className="size-8 shrink-0 text-muted-foreground"
+									aria-label="Close"
+								/>
+							}
+						>
+							<X className="size-4" />
 						</DrawerClose>
 					</div>
 				</DrawerHeader>

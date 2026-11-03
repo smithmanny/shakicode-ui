@@ -1,8 +1,10 @@
+import tailwindForms from "@tailwindcss/forms";
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const slyderzTheme = {
-	darkMode: ["class"],
+	darkMode: "class",
 	content: [
 		"app/**/*.{ts,tsx}",
 		"components/**/*.{ts,tsx}",
@@ -95,7 +97,7 @@ const slyderzTheme = {
 			},
 		},
 	},
-	plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],
+	plugins: [tailwindcssAnimate, tailwindForms],
 } satisfies Config;
 
 export default slyderzTheme;

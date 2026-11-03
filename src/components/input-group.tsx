@@ -9,7 +9,7 @@ import type * as React from "react";
 
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 	return (
-		// biome-ignore lint  lint/a11y/useSemanticElements: library
+		// biome-ignore lint/a11y/useSemanticElements: library
 		<div
 			data-slot="input-group"
 			role="group"
@@ -49,7 +49,8 @@ function InputGroupAddon({
 	...props
 }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
 	return (
-		// biome-ignore lint  lint/a11y/useSemanticElements: library
+		// biome-ignore lint/a11y/useSemanticElements: library
+		// biome-ignore lint/a11y/useKeyWithClickEvents: clicking only moves focus to the input, which keyboard users reach directly
 		<div
 			role="group"
 			data-slot="input-group-addon"
@@ -153,7 +154,7 @@ export {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupButton,
-	InputGroupText,
 	InputGroupInput,
+	InputGroupText,
 	InputGroupTextarea,
 };

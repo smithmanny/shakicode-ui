@@ -1,7 +1,7 @@
 import { Label } from "@workspace/ui/components/label";
 import { cn } from "@workspace/ui/lib/utils";
-import { useId } from "react";
 import type * as React from "react";
+import { useId } from "react";
 
 function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
 	return (

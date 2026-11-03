@@ -26,7 +26,11 @@ export function srcToWebP(
 			context.drawImage(e.target, 0, 0, canvas.width, canvas.height);
 			canvas.toBlob(
 				(data) => {
-					resolve(data as Blob);
+					if (!data) {
+						reject(new Error("Unable to convert image to WebP."));
+						return;
+					}
+					resolve(data);
 				},
 				"image/webp",
 				quality || DEFAULT_QUALITY,

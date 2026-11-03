@@ -4,7 +4,6 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@workspace/ui/components/card";
@@ -14,7 +13,6 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@workspace/ui/components/chart";
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 const chartData = [

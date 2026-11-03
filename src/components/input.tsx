@@ -1,8 +1,8 @@
 import { Input as InputPrimitive } from "@base-ui/react/input";
 import { Label } from "@workspace/ui/components/label";
 import { cn } from "@workspace/ui/lib/utils";
-import { useId } from "react";
 import type * as React from "react";
+import { useId } from "react";
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
 	return (
@@ -23,7 +23,14 @@ interface InputFieldProps extends React.ComponentProps<"input"> {
 	parentClassName?: string;
 	error: string | undefined | any;
 }
-function InputField({ className, type, error, label, parentClassName, ...props }: InputFieldProps) {
+function InputField({
+	className,
+	type,
+	error,
+	label,
+	parentClassName,
+	...props
+}: InputFieldProps) {
 	const autoId = useId();
 	const fieldId = props.id ?? autoId;
 	const errorId = `${fieldId}-error`;
