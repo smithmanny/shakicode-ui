@@ -1,0 +1,88 @@
+name: Publish to npm
+
+# Publishes a new version to npm whenever the `version` in package.json on
+# `main` is one that has not been published yet. To release: bump the version
+# (e.g. `npm version minor --no-git-tag-version`), merge to main, done.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - package.json
+  workflow_dispatch:
+
+concurrency:
+  group: publish-npm
+  cancel-in-progress: false
+
+permissions:
+  contents: write # create the git tag and GitHub release
+  id-token: write # npm trusted publishing (OIDC) + provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Check whether this version is already published
+        id: check
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "$NAME@$VERSION is already on npm, skipping."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "$NAME@$VERSION is new, publishing."
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.check.outputs.publish == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        if: steps.check.outputs.publish == 'true'
+        run: pnpm format-and-lint
+
+      - name: Build
+        if: steps.check.outputs.publish == 'true'
+        run: pnpm build
+
+      - name: Publish
+        if: steps.check.outputs.publish == 'true'
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+          # Pre-release versions (e.g. 1.2.0-beta.1) go to a matching dist-tag
+          # instead of `latest`.
+          TAG=latest
+          if [[ "$VERSION" == *-* ]]; then
+            TAG=$(echo "$VERSION" | sed -E 's/^[^-]+-([a-zA-Z]+).*/\1/')
+          fi
+          npm publish --access public --provenance --tag "$TAG"
+        env:
+          # Optional: only needed if npm trusted publishing is not configured.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create git tag and GitHub release
+        if: steps.check.outputs.publish == 'true'
+        run: |
+          TAG="v${{ steps.check.outputs.version }}"
+          PRERELEASE=""
+          [[ "$TAG" == *-* ]] && PRERELEASE="--prerelease"
+          gh release create "$TAG" --target "$GITHUB_SHA" --title "$TAG" --generate-notes $PRERELEASE
+        env:
+          GH_TOKEN: ${{ github.token }}
