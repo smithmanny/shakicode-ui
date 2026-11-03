@@ -14,7 +14,6 @@
 		"@base-ui/react": "^1.9.0",
 		"@hookform/resolvers": "^7.0.1",
 		"@tsdown/css": "^0.23.4",
-		"alert-dialog": "link:@base-ui/react/alert-dialog",
 		"browser-image-compression": "^2.0.2",
 		"class-variance-authority": "^0.7.1",
 		"cmdk": "^1.1.1",

@@ -17,9 +17,6 @@ importers:
       '@tsdown/css':
         specifier: ^0.23.4
         version: 0.23.4(jiti@2.7.0)(postcss@8.5.32)(tsdown@0.23.4)
-      alert-dialog:
-        specifier: link:@base-ui/react/alert-dialog
-        version: link:@base-ui/react/alert-dialog
       browser-image-compression:
         specifier: ^2.0.2
         version: 2.0.2
