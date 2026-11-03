@@ -2,6 +2,14 @@
 	"name": "@shakicode/ui",
 	"version": "0.1.0",
 	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/smithmanny/shakicode-ui.git"
+	},
+	"homepage": "https://github.com/smithmanny/shakicode-ui#readme",
+	"bugs": {
+		"url": "https://github.com/smithmanny/shakicode-ui/issues"
+	},
 	"scripts": {
 		"build": "tsdown",
 		"format-and-lint": "biome check ./src",
