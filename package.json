@@ -1,6 +1,6 @@
 {
 	"name": "@shakicode/ui",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
 		"build": "tsdown",
@@ -25,7 +25,6 @@
 		"react-hook-form": "^7.91.0",
 		"recharts": "^3.10.1",
 		"sonner": "^2.0.8",
-		"tailwindcss-animate": "^1.0.7",
 		"vaul-base": "^1.0.0",
 		"zod": "^4.6.7"
 	},
@@ -33,7 +32,6 @@
 		"@biomejs/biome": "^2.6.4",
 		"@bosh-code/tsdown-plugin-inject-css": "^2.0.0",
 		"@bosh-code/tsdown-plugin-tailwindcss": "^1.0.1",
-		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/postcss": "^4.3.4",
 		"@turbo/gen": "^2.11.10",
 		"@types/node": "^26.6.6",
@@ -95,14 +93,8 @@
 		"./hooks/use-typed-form": "./dist/hooks/use-typed-form.js",
 		"./icons/facebook": "./dist/icons/facebook.js",
 		"./lib/react-hook-form": "./dist/lib/react-hook-form.js",
-		"./lib/slyderz-theme": "./dist/lib/slyderz-theme.js",
 		"./lib/utils": "./dist/lib/utils.js",
 		"./package.json": "./package.json",
 		"./style.css": "./dist/style.css"
-	},
-	"inlinedDependencies": {
-		"@tailwindcss/forms": "0.5.11",
-		"mini-svg-data-uri": "1.4.4",
-		"tailwindcss": "4.3.4"
 	}
 }
