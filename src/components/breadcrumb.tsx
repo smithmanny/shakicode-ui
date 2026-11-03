@@ -60,7 +60,8 @@ function BreadcrumbLink({
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
 	return (
-		// biome-ignore lint  lint/a11y/useSemanticElements: library
+		// biome-ignore lint/a11y/useSemanticElements: library
+		// biome-ignore lint/a11y/useFocusableInteractive: the current page is a disabled link and shouldn't take focus
 		<span
 			data-slot="breadcrumb-page"
 			role="link"
@@ -113,10 +114,10 @@ function BreadcrumbEllipsis({
 
 export {
 	Breadcrumb,
-	BreadcrumbList,
+	BreadcrumbEllipsis,
 	BreadcrumbItem,
 	BreadcrumbLink,
+	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-	BreadcrumbEllipsis,
 };

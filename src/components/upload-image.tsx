@@ -82,8 +82,11 @@ export const UploadImage = (props: UploadImageProps) => {
 	};
 
 	const handleRemoveImage = (index: number) => {
+		// Default images come first and have no File, so uploaded files are offset by
+		// however many default images are still shown.
+		const fileIndex = index - (images.length - files.length);
 		const nextImages = images.filter((_, i) => i !== index);
-		const nextFiles = files.filter((_, i) => i !== index);
+		const nextFiles = files.filter((_, i) => i !== fileIndex);
 		setImages(nextImages);
 		setFiles(nextFiles);
 
@@ -114,6 +117,7 @@ export const UploadImage = (props: UploadImageProps) => {
 				<div className="relative grid grid-cols-2 gap-6 sm:grid-cols-4">
 					{images.map((image, index) => (
 						<div
+							// biome-ignore lint/suspicious/noArrayIndexKey: images have no stable id and the same photo can be added twice
 							key={index}
 							className="group relative aspect-square overflow-hidden rounded-lg border"
 						>
@@ -125,6 +129,7 @@ export const UploadImage = (props: UploadImageProps) => {
 							<Button
 								onClick={() => handleRemoveImage(index)}
 								variant="ghost"
+								aria-label="Remove image"
 								className="absolute right-2 top-2 rounded-full bg-background/80 p-1.5 opacity-50 transition-opacity group-hover:opacity-100 z-50"
 							>
 								<X className="h-4 w-4" />

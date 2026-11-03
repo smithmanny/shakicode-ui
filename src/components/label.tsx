@@ -5,7 +5,7 @@ import type * as React from "react";
 
 function Label({ className, ...props }: React.ComponentProps<"label">) {
 	return (
-		// biome-ignore lint lint/a11y/noLabelWithoutControl: library
+		// biome-ignore lint/a11y/noLabelWithoutControl: library
 		<label
 			data-slot="label"
 			className={cn(
